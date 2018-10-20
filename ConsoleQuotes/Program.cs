@@ -1,4 +1,5 @@
-﻿
+
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -62,7 +63,20 @@ namespace ConsoleQuotes
 
         }
 
-       
+       private void loadArry(object sender, EventArgs e)
+       {
+	
+         for (int i = 0; i < CadUsdQQ.CadBidArry.Length; i++)
+         {
+
+           CadUsdQQ.CadBidArry[i] = 0;
+
+         }
+
+
+
+       }
+
 
         public static void GetQuotes()
         {
@@ -96,65 +110,49 @@ namespace ConsoleQuotes
                 counter = 0;
                 if (quote.Symbol == "AUD/USD")
                 {
-
-
                     if (quote.Type == "Mark")
                     {
-
                         AudUsdQQ.AudMark = quote.Value;
-
-                        //Console.WriteLine(" HELLO I'M MARK  " + AudUsdQQ.AudMark);
-
                     }
-
-
                     if (quote.Type == "Bid")
                     {
 
-
-
                         AudUsdQQ.AudBid = quote.Value;
-
                         AudUsdQQ.AudUsdBidQuote_list.Add(quote.Value);
                         AudUsdQQ.AudUsdBidQuote_list.ForEach(i => Console.WriteLine("{0}\t", i));
-
-                        Dots = AudUsdQQ.updateValue(AudUsdQQ.AudBid, AudUsdQQ.AudBidArry); // 6
+                        Dots = AudUsdQQ.updateValue(AudUsdQQ.AudBid, AudUsdQQ.AudBidArry);
                        
                         foreach (var dot in Dots)
                         {
-
-                            Console.WriteLine(dot);
+                           // Console.WriteLine(dot);
                         }
-
-
 
                     }
                     if (quote.Type == "Ask")
                     {
-                        //  _audAsk = quote.Value;
+                      
                         AudUsdQQ.AudAsk = quote.Value;
                     }
                     if (quote.Type == "Last")
                     {
-                        // _audLast = quote.Value;
+                       
                         AudUsdQQ.AudLast = quote.Value;
                     }
                     if (quote.Type == "Volume")
                     {
 
-                        // _audVolumn = quote.Value;
+                      
                         AudUsdQQ.AudVolumn = quote.Value;
                     }
                     if (quote.Type == "LAST_SIZE")
                     {
-                        //_audLastSize = quote.Value;
+                       
                         AudUsdQQ.AudLastSize = quote.Value;
                     }
 
 
                     short pipcost = 10000;
                     audSpread = AudUsdQQ.AudAsk - AudUsdQQ.AudBid;
-
                     audPip = audSpread * pipcost;
 
 
@@ -197,7 +195,7 @@ namespace ConsoleQuotes
 
                         CadUsdQQ.CadBid = quote.Value;
                         CadUsdQQ.CaddUsdBidQuote_list.Add(quote.Value);
-                        Dots = CadUsdQQ.updateValue(CadUsdQQ.CadBid, CadUsdQQ.CadBidArry);
+                        
                         for (int i = 0; i < CadUsdQQ.CaddUsdBidQuote_list.Count; i++)
                         {
                             //Form2.listBox1.Items.Add(CadUsdQQ.CaddUsdBidQuote_list[i]);
@@ -209,7 +207,7 @@ namespace ConsoleQuotes
 
                         CadUsdQQ.CadAsk = quote.Value;
                         CadUsdQQ.CaddUsdAskQuote_list.Add(quote.Value);
-                        Dots = CadUsdQQ.updateValue(CadUsdQQ.CadAsk, CadUsdQQ.CadAskArry);
+                        Dots = updateValue(CadUsdQQ.CadAsk, CadUsdQQ.CadAskArry);
 
                     }
                     if (quote.Type == "Last")
@@ -257,23 +255,20 @@ namespace ConsoleQuotes
 
                 }
             }
-
         }
-
-
-        /*
-        private static double[] updateValue(double newValue, double[] values)
-        {
-            for (int i = 0; i < values.Length - 1; i++)
-            {
-                values[i] = values[i + 1];
-            }
-            values[values.Length - 1] = newValue;
-            return values;
-
-        }
-        */
     }
 
+	 public static void chartUpdateVal(Form2 formChart)
+        {
+	    Dots = CadUsdQQ.updateValue(CadUsdQQ.CadBid, CadUsdQQ.CadBidArry);
+	    formChart.chart1.series["Series1"].Points.Clear();
+	    foreach (var dot in Dots)
+            {
+		
+             formChart.chart1.Series["Series1"].Points.Add(dot);
+
+            {
+           
+        }
     
 }
